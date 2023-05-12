@@ -50,4 +50,6 @@
     https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 -> Chapter 2 and 3 are the ones I use the most.
 
--> Also the git cheat list in this directory is quite useful :)
+-> Also the git cheat list in this directory is quite useful.
+
+-> Anyways if you get anything wrong (as I usually do), most of the time git will tell you what to do :)
