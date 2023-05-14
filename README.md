@@ -9,8 +9,11 @@
 ********************************* BRANCHES *********************************
 
 -> Once installed you can create your branch with:
+
     git checkout -b <new branch name>
--> Working in a branch does not alter the documents in other branches. 
+    
+-> Working in a branch does not alter the documents in other branches.
+
 -> In other words one can work without stepping on each others toes.
 
 -> It is recommended that evrybody creates his own main branch, for example: "mainNereu", "mainTimo", "mainJacobo". And then work mainly in this branches, creating the necessary subbranches when needed. For example if I want to covert the txt files but I don't want to mess with my "mainNereu" branch I might do:
