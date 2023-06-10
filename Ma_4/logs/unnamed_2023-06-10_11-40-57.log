@@ -1,0 +1,3283 @@
+# IPython log file
+
+example_data
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import example_data
+example_data
+example_data.nano_xps
+data = load_data('dati/Al_Ag_50V_fullspctra')
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import load_data
+data = load_data('dati/Al_Ag_50V_fullspctra')
+data = load_data('dati/Al_Ag_50V_fullspctra.csv')
+data = load_csv_datatype('dati/Al_Ag_50V_fullspctra.csv')
+import xarray as xr
+import numpy as np
+from pathlib import Path
+
+def load_csv_datatype(path_to_file: str) -> xr.DataArray:
+    loaded_data = np.loadtxt(path_to_file, delimiter=',', skiprows=1) # skip the Data comment
+    coordinates_file = str(Path(Path(path_to_file).stem + '.coords.csv').absolute())
+
+    # get the dimension names
+    with open(coordinates_file) as f:
+        dim_names = f.readline().split()
+
+    raw_coordinates = np.loadtxt(coordinates_file, skiprows=1)
+
+    return xr.DataArray(
+        loaded_data,
+        coords={d: raw_coordinates[:,i] for i, d in enumerate(dim_names)},
+        dims=dim_names,
+        # attrs={...} <- attributes here
+    )
+data = load_csv_datatype('dati/Al_Ag_50V_fullspctra.csv')
+df = read_csv('dati/Al_Ag_50V_fullspctra.csv')
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv')
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv')
+df
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1)
+df
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import load_data
+import xarray as xr
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=0, sep='\t')
+df
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df
+data = xr.DataArray(df)
+data
+data = xr.DataArray(df)
+data
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+xps.sum("eV").S.plot(ax=axes[0])
+xps.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+data.sum("eV").S.plot(ax=axes[0])
+data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+data = xr.DataArray(df['Energy(meas)', 'Scan1'])
+data
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df['Energy(meas)', 'Scan1']
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df['Energy(meas)']
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df['Scan!']
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df['Scan1']
+df = pd.read_csv('dati/Al_Ag_50V_fullspctra.csv', skiprows=1, sep='\t')
+df
+df_compact = df.loc(0,3)
+data = xr.DataArray(df['Energy(meas)', 'Scan1'])
+data
+df_compact = df.loc(0,3)
+df_compact
+df2 = df[['Energy(meas)', 'Scan1']].copy()
+df2
+df2 = df[['Energy(meas)', 'Scan1']]
+df2
+df_compact = df.loc(0,3)
+data = xr.DataArray(df2)
+data
+data = xr.DataArray(df2)
+data
+dim_names = ['eV','counts']
+data = xr.DataArray(df2, dims=dim_names)
+data
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+data.sum("eV").S.plot(ax=axes[0])
+data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+dim_names = ['counts','eV']
+data = xr.DataArray(df['Scan1'],coords=df['Energy(meas)'], dims=dim_names)
+data
+dim_names = ['eV']
+data = xr.DataArray(df['Scan1'],coords=df['Energy(meas)'], dims=dim_names)
+data
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+data.sum("eV").S.plot(ax=axes[0])
+#data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+df2 = df[['Energy(meas)']]
+df2
+df2 = df[['Energy(meas)']]
+df2.to_numpy()
+df2 = df['Energy(meas)']
+df2.to_numpy()
+dim_names = ['eV']
+data = xr.DataArray(df['Scan1'],coords=df['Energy(meas)'].to_numpy(), dims=dim_names)
+data
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+data.sum("eV").S.plot(ax=axes[0])
+#data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+dim_names = ['eV']
+data = xr.DataArray(df['Scan1'],coords=df[['Energy(meas)']].to_numpy(), dims=dim_names)
+data
+dim_names = ['eV']
+data = xr.DataArray(df['Scan1'].to_numpy(),coords=df[['Energy(meas)']].to_numpy(), dims=dim_names)
+data
+dim_names = ['eV']
+data = xr.DataArray(df[['Scan1']].to_numpy(),coords=df[['Energy(meas)']].to_numpy(), dims=dim_names)
+data
+df['Scan1'].shape
+df['Scan1'].to_numpy().shape
+df['Scan1'].to_numpy()
+df[['Scan1']].to_numpy()
+df[['Scan1']].to_numpy().shape
+df[['Scan1']].to_numpy().T.shape
+dim_names = ['eV']
+data = xr.DataArray(df[['Scan1']].to_numpy(),coords=df[['Energy(meas)']].to_numpy(), dims=dim_names)
+data
+dim_names = ['eV']
+
+coords = {'eV': df['Energy(meas)'].to_numpy}
+data = xr.DataArray(df[['Scan1']].to_numpy(),coords=coords, dims=dim_names)
+data
+dim_names = ['eV']
+
+coords = {'eV': df['Energy(meas)'].to_numpy}
+data = xr.DataArray(df['Scan1'].to_numpy(),coords=coords, dims=dim_names)
+data
+dim_names = ['eV']
+
+coords = {'eV': df['Energy(meas)'].to_numpy}
+data = xr.DataArray(df['Scan1'].to_numpy(),coords=coords)
+data
+coords['eV']
+df['Energy(meas)'].to_numpy
+dim_names = ['eV']
+
+coords = {'eV': df['Energy(meas)'].to_numpy()}
+data = xr.DataArray(df['Scan1'].to_numpy(),coords=coords)
+data
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+data.sum("eV").S.plot(ax=axes[0])
+#data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+data.sum("eV").S.plot(ax=axes[0])
+#data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+data.sum("eV").S.plot(ax=axes)
+#data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+data
+data.sum('eV')
+data.S.plot
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+#data.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import load_data
+import xarray as xr
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered.
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in (range(n_scans)+1)]
+    loaded_data = [df[key] for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered.
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(n_scans)+1]
+    loaded_data = [df[key] for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+i=1
+string = f'Scan{i}'
+print(string)
+scan_list = [f'Scan{i}' for i in range(n_scans)+1]
+scan_list = [f'Scan{i}' for i in range(1)+1]
+scan_list = [f'Scan{i}' for i in range(1, 2)]
+scan_list
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered.
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = [df[key] for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered.
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = [df[key].to_numpy() for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered.
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+coords = {'eV' : df['Energy(meas)'].to_numpy()}
+data = xr.DataArray(loaded_data)
+data = xr.DataArray(loaded_data, coords=coords)
+loaded_data
+loaded_data.shape
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = np.array([df[key].to_numpy() for key in scan_list])
+
+coords = {'eV' : df['Energy(meas)'].to_numpy()}
+data = xr.DataArray(loaded_data, coords=coords)
+loaded_data.shape
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = np.array([df[key].to_numpy() for key in scan_list])
+
+coords = {'eV' : df['Energy(meas)'].to_numpy(), dims='eV'}
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = np.array([df[key].to_numpy() for key in scan_list])
+
+coords = {'eV' : df['Energy(meas)'].to_numpy(),}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+loaded_data.T.shape
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = np.array([df[key].to_numpy() for key in scan_list])
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = np.array([df[key].to_numpy().T for key in scan_list])
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = np.array([df[key].to_numpy().T for key in scan_list])
+
+coords = [{'eV' : df['Energy(meas)'].to_numpy().T}]
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = df['Scan1'].to_numpy()
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = df[['Scan1','Sum']].to_numpy()
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = df[['Scan1','Sum']].mean().to_numpy()
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = df[['Scan1','Sum']].mean(axis=1).to_numpy()
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data = xr.DataArray(loaded_data, coords=coords,  dims='eV')
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered.
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+
+
+    loaded_data = df[scan_list].mean(axis=1).to_numpy()
+    
+    #loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+
+scan_list = [f'Scan{i}' for i in range(1,1+1)]
+loaded_data = df[['Scan1','Sum']].mean(axis=1).to_numpy()
+
+coords = {'eV' : df['Energy(meas)'].to_numpy().T}
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+data_path = 'dati/Al_Sm_30V_3d.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=7)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+from arpes.analysis.decomposition import pca_along
+import xarray as xr
+
+n_components = 5
+data, pca = pca_along(data, ['eV'], n_components=n_components)
+from arpes.analysis.decomposition import pca_along
+import xarray as xr
+
+n_components = 2
+data, pca = pca_along(data, ['eV'], n_components=n_components)
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+test_curve = data.spectrum.sel(eV=slice(370, 420))
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+test_curve = data.sel(eV=slice(370, 420))
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+test_curve = data.sel(eV=slice(370, 420))
+test_curve.plot()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+test_curve = data
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+test_curve = data
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background
+from arpes.fits.utilities import result_to_hints
+test_curve = data
+test_curve = remove_shirley_background(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+data.spectrum
+data.sel('eV'=slice(400, 410))
+data.sel(eV=slice(400, 410))
+data.sel(eV=np.arange(400,410,1))
+data.sel(eV=np.arange(400,410,1), method='nearest')
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+test_curve = data.sel(eV=np.arange(400,410,1), method='nearest')
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 420, inclusive=False).to_numpy()
+
+
+test_curve = data.sel(eV=selection)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 420, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+
+
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 420, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+test_curve = remove_shirley_background(test_curve)
+
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 420, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+test_curve = remove_shirley_background(test_curve)
+
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.analysis.shirley import calculate_shirley_background
+
+calculate_shirley_background(data)
+from arpes.analysis.shirley import calculate_shirley_background_full_range
+
+calculate_shirley_background_full_range(data)
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 420, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(400, 420, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(401, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(401, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+base = calculate_shirley_background_full_range(test_curve)
+
+plt.plot(base)
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 375},
+        "b_center": {"value": 405},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 375},
+        "b_center": {"value": 405},
+    }
+)
+result.plot()
+result
+from arpes.analysis.decomposition import pca_along
+import xarray as xr
+
+n_components = 2
+data, pca = pca_along(data, ["x", "y"], n_components=n_components)
+data
+from arpes.analysis.decomposition import pca_along
+import xarray as xr
+
+n_components = 1
+data, pca = pca_along(data, ['eV'], n_components=n_components)
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model = AffineBackgroundModel(), GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model = AffineBackgroundModel() + GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value":2}
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value":2},
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2}
+        "c_center": {"value": 398}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398},
+        "d_center": {"value": 395}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398},
+        #"d_center": {"value": 395}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398, "max":399, "min":397},
+        "d_center": {"value": 395, "max":396, "min":394},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") 
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398, "max":399, "min":397}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+
+
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") 
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") #+ GaussianModel(prefix="c_") 
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") 
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        "d_center": {"value": 393}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        "d_center": {"value": 393},
+        "d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 399, "min": 397},
+        "d_center": {"value": 393},
+        "d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        "d_center": {"value": 393},
+        "d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+p, s = result.F.p('fd_center'), result.F.s('fd_center') 
+plt.fill_between (result.temp.values, p - s, p + s, color='red', alpha=0.2)
+plt.scatter(result.temp.values, p, color='red')
+#plt.gca().set_xlim([16, 100])
+plt.show()
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered. 
+    If multiple scans are present the mean is considered 
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = df[scan_list].mean(axis=1).to_numpy()
+    
+    #loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fullspctra.csv'
+data_path = 'dati/Al_Sm_30V_3d.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=7)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") 
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "a_sigma": {"value": 2},
+        "b_center": {"value": 375, "max":382, "min":378},
+        "b_sigma": {"value": 2},
+        "c_center": {"value": 398}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 399, "min": 397},
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 399, "min": 397},
+        "c_amplitude": {"value": 2}
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 399, "min": 396},
+        "c_amplitude": {"value": 2}
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 396},
+        "c_amplitude": {"value": 2}
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 396},
+        "c_amplitude": {"value": 20}
+        #"d_center": {"value": 393},
+        #"d_amplitude": {"max": 5, "min": 1}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 396},
+        "c_amplitude": {"value": 20}
+        "d_center": {"value": 393, "max": 400, "min": 389},
+        "d_amplitude": {"min": 0}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 396},
+        "c_amplitude": {"value": 20},
+        "d_center": {"value": 393, "max": 400, "min": 389},
+        "d_amplitude": {"min": 0}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 396},
+        "c_amplitude": {"value": 20},
+        "d_center": {"value": 393, "max": 400, "min": 389},
+        "d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 397},
+        "c_amplitude": {"value": 20},
+        "d_center": {"value": 393, "max": 400, "min": 389},
+        "d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + GaussianModel(prefix="c_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 393, "max": 400, "min": 389},
+        "c_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + GaussianModel(prefix="c_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 393, "max": 400, "min": 389},
+        "c_height": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + GaussianModel(prefix="c_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 393, "max": 400, "min": 389},
+        "c_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 397},
+        "c_amplitude": {"value": 20},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398, "max": 400, "min": 397},
+        "c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        "c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") #+ LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") #+ LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+        "c_center": {"value": 398},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398},
+        "c_amplitude": {"min": 0},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve,
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10}
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min":0}
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.2},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.8, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":397},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.2},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  VoigtModel(prefix="a_") + VoigtModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  VoigtModel(prefix="a_") + VoigtModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  VoigtModel(prefix="a_") + VoigtModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "b_center": {"value": 375},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.8, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":398},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.2},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.8, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":398.5},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.2},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.8, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.2},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.8, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + GaussianModel(prefix="d_") #+ LorentzianModel(prefix="c_") +
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.8, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 1.9, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        #"c_amplitude": {"value": 20, "min":0},
+        #"d_center": {"value": 393, "max": 400, "min": 389},
+        #"d_amplitude": {"min": 0, "max": 5}
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.1, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.3, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0},
+        "c_sigma":{"max": 10, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 2, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") #+ LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 2, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") #+ LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4}
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "b_center": {"value": 414.5 },
+
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "b_center": {"value": 414.5 },
+        "b_amplitude":{"min":0.1}
+
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") #+ GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405, "min": 400, "max": 415},
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "b_center": {"value": 414.5, "min": 414, "max": 415},
+        "b_amplitude":{"min":0.1}
+
+    }
+)
+result.plot()
+result
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") 
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel, ExponentialDecayModel
+
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") 
+test_model = ExponentialDecayModel(prefix="a_") 
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel#, ExponentialDecayModel
+
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") 
+test_model = VoigtModel(prefix="a_") 
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel#, ExponentialDecayModel
+
+selection = df['Energy(meas)'].between(400, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") 
+test_model = VoigtModel(prefix="a_")
+test_model = GaussianModel(prefix="a_") 
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel, ExponentialDecayModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  AffineBackgroundModel(prefix='bg_') + LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  AffineBackgroundModel(prefix='bg_') + LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(370, 414, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+
+test_model =  LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 405, "max":410, "min":400 },
+        "b_center": {"value": 375, "max":382, "min":378},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 2, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 402, "min":399},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 2, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 400, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 2, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 399, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 2, "min": 0.3},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 399, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 10, "min": 1},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = LorentzianModel(prefix="a_") + LorentzianModel(prefix="b_") + LorentzianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 399, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 3, "min": 1},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+from arpes.plotting.fit_tool import fit_tool
+fit_tool(result)
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") + GaussianModel(prefix="d_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 399, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 3, "min": 1},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") + GaussianModel(prefix="d_") + GaussianModel(prefix="e_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 399, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 3, "min": 1},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        "e_center": {"value": 413, "max": 415, "min":411},
+        "e_amplitude": {"min": 0},
+        "e_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+result.best_fit
+result.conf_interval
+result.conf_interval.plot()
+result.conf_interval()
+result.components
+result.chisqr
+result.errorbars
+result.fit_report
+result.fit_report()
+print(result.fit_report())
+# test_curve = xps.spectrum.where(mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+# test_curve = remove_shirley_background(test_curve)
+
+selection = df['Energy(meas)'].between(370, 415, inclusive=False).to_numpy()
+test_curve = data.sel(eV=selection)
+#test_curve = remove_shirley_background(test_curve)
+
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model = GaussianModel(prefix="a_") + GaussianModel(prefix="b_") + GaussianModel(prefix="c_") + GaussianModel(prefix="d_") + GaussianModel(prefix="e_") + GaussianModel(prefix="f_")
+
+result = test_model.guess_fit(
+    test_curve-test_curve.min(),
+    params={
+        "a_center": {"value": 405 },
+        "a_sigma": {"value": 1.5, "max": 2.5, "min": 1.4},
+        "a_amplitude": {"min": 0},
+        "b_center": {"value": 375},
+        "b_amplitude": {"min": 0},
+        "c_center": {"value": 398, "max": 399, "min":397},
+        "c_amplitude": {"min": 0.3},
+        "c_sigma":{"max": 3, "min": 1},
+        "d_center": {"value": 393, "max": 396, "min":391},
+        "d_amplitude": {"min": 0},
+        "d_sigma":{"max": 10, "min": 1},
+        "e_center": {"value": 413, "max": 415, "min":411},
+        "e_amplitude": {"min": 0},
+        "e_sigma":{"max": 10, "min": 1},
+        "f_center": {"value": 373, "max": 374, "min":370},
+        "f_amplitude": {"min": 0},
+        "f_sigma":{"max": 10, "min": 1},
+    }
+
+)
+result.plot()
+result
+print(result.fit_report())

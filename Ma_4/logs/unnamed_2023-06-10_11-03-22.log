@@ -1,0 +1,158 @@
+# IPython log file
+
+import numpy as np
+import mdtraj as md
+import pandas as pd
+import numpy as np
+import pandas as pd
+from arpes.io import example_data
+import matplotlib.pyplot as plt
+
+xps = example_data.nano_xps
+
+fig, axes = plt.subplots(1, 2, figsize=(12,4))
+xps.sum("eV").S.plot(ax=axes[0])
+xps.sum(["x", "y"]).S.plot(ax=axes[1])
+plt.tight_layout()
+from arpes.analysis.decomposition import pca_along
+import xarray as xr
+
+n_components = 5
+data, pca = pca_along(xps, ["x", "y"], n_components=n_components)
+fig, ax = plt.subplots(n_components, 2, figsize=(8, 4 * n_components))
+
+for component in range(n_components):
+    data.isel(components=component).S.plot(ax=ax[component, 0])
+    ax[component, 0].set_title(f"Component {component}")
+
+    xr.DataArray(pca.components_[component], {"eV": xps.eV.values}, ["eV"]).plot(ax=ax[component, 1])
+
+plt.tight_layout()
+ws2_mask = (data.isel(components=0) > 500)
+substrate_mask = (data.isel(components=1) > 1000)
+
+fig, ax = plt.subplots(2, 2, figsize=(10, 10))
+ws2_mask.S.plot(ax=ax[0,0])
+substrate_mask.S.plot(ax=ax[0,1])
+
+xps.spectrum.where(ws2_mask).mean(["x", "y"]).S.plot(ax=ax[1,0])
+xps.spectrum.where(substrate_mask).mean(["x", "y"]).S.plot(ax=ax[1,1])
+
+ax[0,0].set_title("Component 0 Mask")
+ax[0,1].set_title("Component 1 Mask")
+ax[1,0].set_title("Component 0 Masked XPS")
+ax[1,1].set_title("Component 1 Masked XPS")
+
+plt.tight_layout()
+
+[6]:
+ws2_mask = (data.isel(components=0) > 500)
+substrate_mask = (data.isel(components=1) > 1000) & ~ws2_mask
+
+fig, ax = plt.subplots(2, 2, figsize=(10, 10))
+ws2_mask.S.plot(ax=ax[0,0])
+substrate_mask.S.plot(ax=ax[0,1])
+
+xps.spectrum.where(ws2_mask).mean(["x", "y"]).S.plot(ax=ax[1,0])
+xps.spectrum.where(substrate_mask).mean(["x", "y"]).S.plot(ax=ax[1,1])
+
+ax[0,0].set_title("Component 0 Mask")
+ax[0,1].set_title("Component 1 Mask")
+ax[1,0].set_title("Component 0 Masked XPS")
+ax[1,1].set_title("Component 1 Masked XPS")
+
+plt.tight_layout()
+ws2_mask = (data.isel(components=0) > 500)
+substrate_mask = (data.isel(components=1) > 1000) & ~ws2_mask
+
+fig, ax = plt.subplots(2, 2, figsize=(10, 10))
+ws2_mask.S.plot(ax=ax[0,0])
+substrate_mask.S.plot(ax=ax[0,1])
+
+xps.spectrum.where(ws2_mask).mean(["x", "y"]).S.plot(ax=ax[1,0])
+xps.spectrum.where(substrate_mask).mean(["x", "y"]).S.plot(ax=ax[1,1])
+
+ax[0,0].set_title("Component 0 Mask")
+ax[0,1].set_title("Component 1 Mask")
+ax[1,0].set_title("Component 0 Masked XPS")
+ax[1,1].set_title("Component 1 Masked XPS")
+
+plt.tight_layout()
+from arpes.config import use_tex
+use_tex(False)
+
+ws2_mask = (data.isel(components=0) > 500)
+wide_peak_mask = (data.isel(components=3) > 500) & ws2_mask
+
+fig, ax = plt.subplots(2, 1, figsize=(5, 10))
+wide_peak_mask.S.plot(ax=ax[0])
+
+xps.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).S.plot(ax=ax[1], label="ws2_mask")
+xps.spectrum.where(wide_peak_mask).mean(["x", "y"]).S.plot(ax=ax[1], label="wide_peak_mask")
+
+ax[1].legend()
+
+ax[0].set_title("Wide Peak Mask")
+ax[1].set_title("XPS Comparison")
+
+plt.tight_layout()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+test_curve = xps.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+test_model = AffineBackgroundModel() + GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+test_curve = xps.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+test_model = AffineBackgroundModel() + GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+test_curve = xps.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+test_model = [AffineBackgroundModel(), GaussianModel(prefix="a_"), GaussianModel(prefix="b_")]
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel
+
+test_curve = xps.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+test_model = AffineBackgroundModel() + GaussianModel(prefix="a_") + GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": -34.6},
+        "b_center": {"value": -32.5},
+    }
+)
+result.plot()
+result
