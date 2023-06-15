@@ -1,0 +1,1048 @@
+# IPython log file
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import load_data
+import xarray as xr
+def load_csv_datatype(path_to_file: str = None, 
+                      df = None,
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered. 
+    If multiple scans are present the mean is considered 
+    """
+    if path_to_file is not None:
+        df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+    elif df is not None:
+        df=df
+    else:
+        print('One of path_to_file or df need to be specified')
+        return 0
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = df[scan_list].mean(axis=1).to_numpy()
+    
+    #loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Coin_Al_50V_fullspctra.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+fermi_energy = 1244.00000 #+/- 7.18180244
+
+df['BindingEnergy'] = fermi_energy - df['Energy(meas)']
+
+df
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+# Save nev csv file for spectra analisis
+
+df[['Energy(meas)', 'Scan1']].to_csv('dati/Coin_MG_50V_binding1.csv', index=False)
+data = load_csv_datatype(df=df, energy_key='BindingEnergy', n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(240, 290, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(240, 320, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(280, 300, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+fermi_energy = 1477.61674 #+/- 0.50422479
+
+df['BindingEnergy'] = fermi_energy - df['Energy(meas)']
+
+df
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+# Save nev csv file for spectra analisis
+
+df[['Energy(meas)', 'Scan1']].to_csv('dati/Coin_MG_50V_binding1.csv', index=False)
+data = load_csv_datatype(df=df, energy_key='BindingEnergy', n_scans=1)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(280, 300, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(250, 290, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(270, 280, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(400, 600, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(515, 530, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(800, 1000, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(925, 940, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(920, 950, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(923, 960, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(923, 945, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(937, 945, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(250, 290, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(270, 290, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(275, 285, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1000, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1050, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1050, 1080, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1050, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1050, 1080, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1060, 1075, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1080, 1100, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1080, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1085, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1085, 1100, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1085, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1085, 1110, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1085, 1112, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1085, 1102, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1089, 1102, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1089, 12002, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1089, 1200, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 3000, 'CU2p1/2')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 3000, 'CU2p1/2')
+plt.text(932.7, 3000, 'CU2p3/2')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 3000, 'CU2p1/2', rotation='vertical')
+plt.text(932.7, 3000, 'CU2p3/2')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 3000, 'CU2p1/2', rotation='vertical')
+plt.text(932.7, 3000, 'CU2p3/2', rotation='vertical')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 2700, 'CU2p1/2', rotation='vertical')
+plt.text(932.7, 2700, 'CU2p3/2', rotation='vertical')
+plt.text(1096.7, 2700, 'CU2s')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 2700, 'CU2p1/2', rotation='vertical')
+plt.text(932.7, 2700, 'CU2p3/2', rotation='vertical')
+plt.text(1096.7, 2700, 'CU2s', rotatio='vertical')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+#df.plot('Energy(meas)', 'Sum')
+# plt.show()
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be,count)
+
+plt.text(952.3, 2700, 'CU2p1/2', rotation='vertical')
+plt.text(932.7, 2700, 'CU2p3/2', rotation='vertical')
+plt.text(1096.7, 2700, 'CU2s', rotation='vertical')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()
