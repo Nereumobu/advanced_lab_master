@@ -2067,3 +2067,56 @@ plt.title('Spectrum of 10 DM coin')
 plt.xlabel('Binding energy [eV]')
 plt.ylabel('Counts')
 plt.show()
+shift = 0#22
+
+
+positive_mask = np.where(df['BindingEnergy'].to_numpy()>=0)
+
+be = df['BindingEnergy'].to_numpy()[positive_mask]
+count = df['Scan1'].to_numpy()[positive_mask]
+
+fig = plt.figure(figsize=(15,5))
+plt.plot(be+shift,count)
+
+# Cu
+plt.text(952.3, 2100, 'Cu 2p1/2', rotation='vertical')
+plt.text(932.7, 2100, 'Cu 2p3/2', rotation='vertical')
+#plt.text(1096.7, 2100, 'Cu 2s', rotation='vertical')
+# C
+plt.text(284.2, 2100, 'C 1s', rotation='vertical')
+# Fe
+# plt.text(706.8, 2100, 'Fe 2p3/2', rotation='vertical')
+# plt.text(719.9, 2100, 'Fe 2p1/2', rotation='vertical')
+# plt.text(844.6, 2100, 'Fe 2s', rotation='vertical')
+# # Sn
+# plt.text(884.7, 2100, 'Sn 3s', rotation='vertical')
+# plt.text(756.5, 2100, 'Sn 3p1/2', rotation='vertical')
+# plt.text(714.6, 2100, 'Sn 3p3/2', rotation='vertical')
+# plt.text(493.2, 2100, 'Sn 3d3/2', rotation='vertical')
+# plt.text(484.9, 2100, 'Sn 3d5/2', rotation='vertical')
+# Zn
+# plt.text(1044.9, 2100, 'Zn 2p1/2', rotation='vertical')
+# plt.text(1021.8, 2100, 'Zn 2p3/2', rotation='vertical')
+# Ag
+# plt.text(719.0, 2100, 'Ag 3s', rotation='vertical')
+# plt.text(603.8, 2100, 'Ag 3p1/2', rotation='vertical')
+# plt.text(573.0, 2100, 'Ag 3p3/2', rotation='vertical')
+# plt.text(374.0, 2100, 'Ag 3d3/2', rotation='vertical')
+# plt.text(368.0, 2100, 'Ag 3d5/2', rotation='vertical')
+# Pb
+# plt.text(671.6, 2100, 'Pb 3s', rotation='vertical')
+# plt.text(559.9, 2100, 'Pb 3p1/2', rotation='vertical')
+# plt.text(532.3, 2100, 'Pb 3p3/2', rotation='vertical')
+# plt.text(340.5, 2100, 'Pb 3d3/2', rotation='vertical')
+# plt.text(335.2, 2100, 'Pb 3d5/2', rotation='vertical')
+# Ni
+# plt.text(852.7, 2100, 'Ni 2p3/2', rotation='vertical')
+# plt.text(870.0, 2100, 'Ni 2p1/2', rotation='vertical')
+# plt.text(1008.6, 2100, 'Ni 2s', rotation='vertical')
+# O
+plt.text(543.1, 2100, 'O 1s', rotation='vertical')
+
+plt.title('Spectrum of 10 DM coin')
+plt.xlabel('Binding energy [eV]')
+plt.ylabel('Counts')
+plt.show()

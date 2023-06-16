@@ -1,0 +1,302 @@
+# IPython log file
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import load_data
+import xarray as xr
+def load_csv_datatype(path_to_file: str = None, 
+                      df = None,
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered. 
+    If multiple scans are present the mean is considered 
+    """
+    if path_to_file is not None:
+        df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+    elif df is not None:
+        df=df
+    else:
+        print('One of path_to_file or df need to be specified')
+        return 0
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = df[scan_list].mean(axis=1).to_numpy()
+    
+    #loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path_1 = 'dati/Coin_Mg_50V_fullspctra.csv'
+data_path_2 = 'dati/Coin_Al_50V_fullspctra.csv'
+
+
+df_Mg = pd.read_csv(data_path_1, skiprows=1, sep='\t')
+df_Al = pd.read_csv(data_path_2, skiprows=1, sep='\t')
+df_Mg
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'])
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'])
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'])
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='powerdblue')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='powderblue')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='powderblue')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='mediumseagreen')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='powderblue')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='seagreen')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['BindingEnergy'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['BindingEnergy'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['BindingEnergy'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['BindingEnergy'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+plt.invert_xaxis()
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['BindingEnergy'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['BindingEnergy'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+fig.invert_xaxis()
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+
+fig, ax = plt.subplots(1,1,figsize=(15,5))
+
+ax.plot(df_Mg['BindingEnergy'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+ax.plot(df_Al['BindingEnergy'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+fig.invert_xaxis()
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['BindingEnergy'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['BindingEnergy'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+plt.set_xlim(df_Al['BindingEnergy'].max(), -2)  # decreasing time
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+fermi_energy_Mg = 1244.00000 #+/- 7.18180244
+fermi_energy_Al = 1477.61674 #+/- 0.50422479
+
+df_Al['BindingEnergy'] = fermi_energy_Al - df_Al['Energy(meas)']
+df_Mg['BindingEnergy'] = fermi_energy_Mg - df_Mg['Energy(meas)']
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['Energy(meas)'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['Energy(meas)'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
+
+fig = plt.figure(figsize=(15,5))
+
+plt.plot(df_Mg['BindingEnergy'], df_Mg['Scan1'], label='Magnesium', c='tab:olive')
+plt.plot(df_Al['BindingEnergy'], df_Al['Scan1'], label='Aluminium', c='tab:cyan')
+plt.xlim(df_Al['BindingEnergy'].max(), -2)  # decreasing time
+plt.xlabel('Kinetic Energy [eV]')
+plt.ylabel('Counts')
+plt.legend()
+plt.show()
