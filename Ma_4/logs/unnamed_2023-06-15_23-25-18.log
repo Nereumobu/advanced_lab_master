@@ -2712,3 +2712,51 @@ plt.title('Spectrum of 10 DM coin')
 plt.xlabel('Binding energy [eV]')
 plt.ylabel('Counts')
 plt.show()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1070, 1090, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['BindingEnergy'].between(1077, 1090, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  GaussianModel(prefix="a_") #+ GaussianModel(prefix="b_")
+
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    # params={
+    #     "a_center": {"value": 653, "max":655, "min":651 },
+    #     "a_amplitude": {"min": 0},
+    #     "b_center": {"value": 683, "max":687, "min":680},
+    #     "b_amplitude": {"min": 0},
+    # }
+)
+result.plot()
+result
