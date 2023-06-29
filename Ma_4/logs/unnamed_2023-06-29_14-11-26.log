@@ -1,0 +1,147 @@
+# IPython log file
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+from arpes.io import load_data
+import xarray as xr
+def load_csv_datatype(path_to_file: str, 
+                      n_scans: int= 1,
+                      energy_key: str = 'Energy(meas)',
+                      dim_name: str = 'eV') -> xr.DataArray:
+    """
+    This function load a dataset in the csv format using pandas.
+    the number of scans need to be manually insered. 
+    If multiple scans are present the mean is considered 
+    """
+
+    df = pd.read_csv(path_to_file, skiprows=1, sep='\t')
+
+    scan_list = [f'Scan{i}' for i in range(1,n_scans+1)]
+    loaded_data = df[scan_list].mean(axis=1).to_numpy()
+    
+    #loaded_data = [df[key].to_numpy().T for key in scan_list]
+
+    coords = {dim_name : df[energy_key].to_numpy()}
+
+    return xr.DataArray(
+        loaded_data,
+        coords=coords,
+        dims=dim_name,
+        # attrs={...} <- attributes here
+    )
+data_path = 'dati/Al_Ag_50V_fermilevel.csv'
+
+df = pd.read_csv(data_path, skiprows=1, sep='\t')
+df
+data = load_csv_datatype(path_to_file=data_path, n_scans=7)
+
+# Plot datas
+fig, axes = plt.subplots(1, 1, figsize=(6,4))
+
+#data.sum("eV").S.plot(ax=axes)
+data.S.plot(ax=axes)
+
+plt.tight_layout()
+from arpes.fits.fit_models import GaussianModel, AffineBackgroundModel, LorentzianModel, VoigtModel, FermiDiracModel, FermiLorentzianModel
+from arpes.analysis.shirley import remove_shirley_background, calculate_shirley_background_full_range
+from arpes.fits.utilities import result_to_hints
+#test_curve = data.spectrum.where(ws2_mask & ~wide_peak_mask).mean(["x", "y"]).sel(eV=slice(-36, -31))
+
+# Selection
+selection = df['Energy(meas)'].between(1473, 1480, inclusive=False).to_numpy()
+
+test_curve = data.sel(eV=selection)
+#test_curve = test_curve - calculate_shirley_background_full_range(test_curve, max_iters=100)
+
+test_model =  FermiDiracModel(prefix="a_") 
+result = test_model.guess_fit(
+    test_curve - test_curve.min(),
+    params={
+        "a_center": {"value": 1477, "max":1480, "min":1473 },
+        #"a_amplitude": {"min": 0},
+        #"b_center": {"value": 910, "max":915, "min":907},
+        #"b_amplitude": {"min": 0},
+    }
+)
+result.plot()
+result
+print(result.fit_report())
+def plot_fit(model_result, ax=None):
+    """Performs a straightforward plot of the data, residual, and fit to an axis."""
+    if ax is None:
+        fig, ax = plt.subplots()
+
+    x = model_result.userkws[model_result.model.independent_vars[0]]
+    ax2 = ax.twinx()
+    ax2.grid(False)
+    ax2.axhline(0, color="green", linestyle="--", alpha=0.5)
+
+    ax.scatter(x, model_result.data, s=10, edgecolors="blue", marker="s", c="white", linewidth=1.5, label='Data')
+    ax.plot(x, model_result.best_fit, color="red", linewidth=1.5, label='Fit')
+
+    ax2.scatter(
+        x,
+        model_result.residual,
+        edgecolors="green",
+        alpha=0.5,
+        s=12,
+        marker="s",
+        c="white",
+        linewidth=1.5,
+        label='Residual'
+    )
+    ylim = np.max(np.abs(np.asarray(ax2.get_ylim()))) * 1.5
+    ax2.set_ylim([-ylim, ylim])
+    ax.set_xlim([np.min(x), np.max(x)])
+    ax2.set_ylabel('Residual')
+    ax.set_ylabel('Counts')
+    ax.set_xlabel('Energy (eV)')
+    
+
+
+
+
+fig, ax = plt.subplots(1,1)
+plot_fit(result, ax=ax)
+
+fig.legend(loc='upper center', ncol=3)
+def plot_fit(model_result, ax=None):
+    """Performs a straightforward plot of the data, residual, and fit to an axis."""
+    if ax is None:
+        fig, ax = plt.subplots()
+
+    x = model_result.userkws[model_result.model.independent_vars[0]]
+    ax2 = ax.twinx()
+    ax2.grid(False)
+    ax2.axhline(0, color="green", linestyle="--", alpha=0.5)
+
+    ax.plot(x, model_result.data, color="blue", marker="s", linewidth=1.5, label='Data')
+    ax.plot(x, model_result.best_fit, color="red", linewidth=1.5, label='Fit')
+
+    ax2.scatter(
+        x,
+        model_result.residual,
+        edgecolors="green",
+        alpha=0.5,
+        s=12,
+        marker="s",
+        c="white",
+        linewidth=1.5,
+        label='Residual'
+    )
+    ylim = np.max(np.abs(np.asarray(ax2.get_ylim()))) * 1.5
+    ax2.set_ylim([-ylim, ylim])
+    ax.set_xlim([np.min(x), np.max(x)])
+    ax2.set_ylabel('Residual')
+    ax.set_ylabel('Counts')
+    ax.set_xlabel('Energy (eV)')
+    
+
+
+
+
+fig, ax = plt.subplots(1,1)
+plot_fit(result, ax=ax)
+
+fig.legend(loc='upper center', ncol=3)
