@@ -1,0 +1,24 @@
+FP M5 Header Date: 3/15/2014
+ Resolution (nm): 10.000000
+Start Wavelength (nm): 270.000000
+End: Wavelength (nm): 420.000000
+Constant Wavelength (nm): 450.000000
+Integration Time (ms): 100.000000
+ Spectrum: Excitation
+Sample:A
+-1.957
+-1.956
+-1.955
+-1.955
+-1.954
+-1.949
+-1.942
+-1.932
+-1.922
+-1.910
+-1.916
+-1.919
+-1.934
+-1.952
+-1.955
+-1.955
